@@ -38,7 +38,7 @@ public class Depense {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "depense")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private List<Depense> listMotif;
+    private List<Motif> listMotif;
 
     private String commentaire;
 

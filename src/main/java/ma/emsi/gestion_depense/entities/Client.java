@@ -1,6 +1,5 @@
 package ma.emsi.gestion_depense.entities;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,20 +10,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class Motif {
+public class Client {
+
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private int id;
 
-    private String titre;
-    @Column(nullable = true, length = 64)
-    private String pieceJustificative;
-
-    private double montant;
-    @ManyToOne
-    @JoinColumn(name = "depense" ,referencedColumnName = "id")
-    private Depense depense;
-
+    String nom;
 }
