@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.EmployeNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
+import ma.emsi.gestion_depense.dtos.EmployeDTO;
 import ma.emsi.gestion_depense.entities.Employe;
 import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.entities.enums.Departement;
+import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
 import ma.emsi.gestion_depense.repositories.EmployeRepository;
 import ma.emsi.gestion_depense.repositories.ProjetRepository;
 import ma.emsi.gestion_depense.services.interfaces.EmployeService;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional // les operations sont transactionel
@@ -23,7 +26,7 @@ import java.util.List;
 public class EmployeServiceImpl implements EmployeService {
     EmployeRepository employeRepository;
     ProjetRepository projetRepository;
-
+    GestionDepenseMapper gdp;
 
     @Override
     public Employe saveEmploye(String nom, String prenom, String phone, String Matricule, Departement departement, String email, List<Projet> listProjet) throws ProjectNotFoundException {
@@ -55,8 +58,9 @@ public class EmployeServiceImpl implements EmployeService {
     }
 
     @Override
-    public List<Employe> listEmploye() {
-        return employeRepository.findAll();
+    public List<EmployeDTO> listEmploye() {
+        List<Employe> list= employeRepository.findAll();
+        return list.stream().map(employe -> gdp.fromEmploye(employe)).collect(Collectors.toList());
     }
 
 
