@@ -2,6 +2,7 @@ package ma.emsi.gestion_depense.services.interfaces;
 
 import ma.emsi.gestion_depense.Exceptions.DepenseNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.DeplacementNotFoundException;
+import ma.emsi.gestion_depense.dtos.DepenseDTO;
 import ma.emsi.gestion_depense.entities.Depense;
 import ma.emsi.gestion_depense.entities.enums.ModeReglement;
 
@@ -19,7 +20,7 @@ public interface DepenseService {
 
     Depense Rejeter(int id) throws DepenseNotFoundException;
 
-    List<Depense> listDepense();
+    List<DepenseDTO> listDepense();
 
     Depense getDepense(int depenseId) throws DepenseNotFoundException;
 }

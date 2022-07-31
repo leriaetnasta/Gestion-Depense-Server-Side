@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.DepenseNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.DeplacementNotFoundException;
+import ma.emsi.gestion_depense.dtos.DepenseDTO;
 import ma.emsi.gestion_depense.entities.Depense;
 import ma.emsi.gestion_depense.entities.Deplacement;
 import ma.emsi.gestion_depense.entities.enums.ModeReglement;
 import ma.emsi.gestion_depense.entities.enums.Status;
+import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
 import ma.emsi.gestion_depense.repositories.DeplacementRepository;
 import ma.emsi.gestion_depense.repositories.DepenseRepository;
 import ma.emsi.gestion_depense.services.interfaces.DepenseService;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional // les operations sont transactionel
 @AllArgsConstructor
@@ -23,6 +27,8 @@ import java.util.List;
 public class DepenseServiceImpl implements DepenseService {
     DeplacementRepository deplacementRepository;
     DepenseRepository depenseRepository;
+    GestionDepenseMapper gdp;
+
     @Override
     public Depense saveDepense(double montant, ModeReglement modeReglement, int deplacementId) throws DeplacementNotFoundException {
         log.info("ajout d'une depense");
@@ -64,8 +70,9 @@ public class DepenseServiceImpl implements DepenseService {
     }
 
     @Override
-    public List<Depense> listDepense() {
-        return depenseRepository.findAll();
+    public List<DepenseDTO> listDepense() {
+        List<Depense> list= depenseRepository.findAll();
+        return list.stream().map(depense -> gdp.fromDepense(depense)).collect(Collectors.toList());
     }
 
     @Override
