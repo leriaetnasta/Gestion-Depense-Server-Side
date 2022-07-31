@@ -5,9 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.DeplacementNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.EmployeNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
+import ma.emsi.gestion_depense.dtos.DeplacementDTO;
 import ma.emsi.gestion_depense.entities.Deplacement;
 import ma.emsi.gestion_depense.entities.Employe;
 import ma.emsi.gestion_depense.entities.Projet;
+import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
 import ma.emsi.gestion_depense.repositories.DeplacementRepository;
 import ma.emsi.gestion_depense.repositories.EmployeRepository;
 import ma.emsi.gestion_depense.repositories.ProjetRepository;
@@ -17,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional // les operations sont transactionel
 @AllArgsConstructor
@@ -26,6 +30,8 @@ public class DeplacementServiceImpl implements DeplacementService {
     DeplacementRepository deplacementRepository;
     EmployeRepository employeRepository;
     ProjetRepository projetRepository;
+    GestionDepenseMapper gdp;
+
     @Override
     public Deplacement saveDeplacement(Date dateDepart, Date dateRetour, int employeId, int projetId, String adresse) throws EmployeNotFoundException, DeplacementNotFoundException, ProjectNotFoundException/*, AdresseNotFoundException*/ {
         log.info("Ajout d'un deplacement");
@@ -64,8 +70,9 @@ public class DeplacementServiceImpl implements DeplacementService {
     }
 
     @Override
-    public List<Deplacement> listDeplacement() {
-        return deplacementRepository.findAll();
+    public List<DeplacementDTO> listDeplacement() {
+        List<Deplacement> list= deplacementRepository.findAll();
+        return list.stream().map(deplacement -> gdp.fromDeplacement(deplacement)).collect(Collectors.toList());
     }
 
     @Override
