@@ -57,8 +57,7 @@ SecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
 
         // pour specifier les droits d'access
-         //http.formLogin(); //  demander a spring security => utliser un formulaire d'authentification
-        http.formLogin().loginPage("/login");
+         http.formLogin(); //  demander a spring security => utliser un formulaire d'authentification
         // pour utliser votre formulaire on ajout:
         //http.formLogin().loginPage("/login");
         //qlq soit les ressources utilisé dans l'app necessite une auth

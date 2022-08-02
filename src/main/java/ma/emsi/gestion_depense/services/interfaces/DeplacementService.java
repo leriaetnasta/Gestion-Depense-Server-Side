@@ -20,5 +20,5 @@ public interface DeplacementService {
     Deplacement editDeplacement(Deplacement deplacement);
     List<DeplacementDTO> listDeplacement();
 
-    Deplacement getDeplacement(int deplacementId) throws DeplacementNotFoundException;
+    DeplacementDTO getDeplacement(int deplacementId) throws DeplacementNotFoundException;
 }

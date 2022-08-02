@@ -40,5 +40,7 @@ public class Projet {
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private List<Deplacement> listDeplacement;
 
-
+    @ManyToOne
+    @JoinColumn(name = "client_id" ,referencedColumnName = "id")
+    private Client client;
 }

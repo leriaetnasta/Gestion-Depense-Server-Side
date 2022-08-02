@@ -76,7 +76,8 @@ public class DeplacementServiceImpl implements DeplacementService {
     }
 
     @Override
-    public Deplacement getDeplacement(int deplacementId) throws DeplacementNotFoundException {
-        return deplacementRepository.findById(deplacementId).orElseThrow(()-> new DeplacementNotFoundException("Deplacement Introuvable"));
+    public DeplacementDTO getDeplacement(int deplacementId) throws DeplacementNotFoundException {
+        Deplacement deplacement=deplacementRepository.findById(deplacementId).orElseThrow(()-> new DeplacementNotFoundException("Deplacement Introuvable"));
+        return gdp.fromDeplacement(deplacement);
     }
 }
