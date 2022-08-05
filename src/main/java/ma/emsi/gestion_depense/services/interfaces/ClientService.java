@@ -9,4 +9,10 @@ public interface ClientService {
     List<ClientDTO> listClient();
 
     ClientDTO getClient(int i) throws ClientNotFoundException;
+
+    ClientDTO saveClient(ClientDTO clientDTO) throws ClientNotFoundException;
+
+    ClientDTO updateClient(ClientDTO clientDTO);
+
+    void deleteClient(int id);
 }

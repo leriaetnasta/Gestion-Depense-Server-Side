@@ -34,5 +34,29 @@ public class ClientServiceImpl implements ClientService {
          return gdp.fromClient(client);
     }
 
+    @Override
+    public ClientDTO saveClient(ClientDTO clientDTO) throws ClientNotFoundException {
+        log.info("Ajout d'un client");
+
+        Client client= gdp.fromClientDTO(clientDTO);
+        Client client1=clientRepository.save(client);
+        return gdp.fromClient(client1);
+    }
+    @Override
+    public ClientDTO updateClient(ClientDTO clientDTO) {
+        log.info("edit client");
+        Client client=gdp.fromClientDTO(clientDTO);
+        Client client1=clientRepository.save(client);
+        return  gdp.fromClient(client1);
+    }
+    @Override
+    public void deleteClient(int id){
+        clientRepository.deleteById(id);
+    }
+
+
+
+
+
 
 }
