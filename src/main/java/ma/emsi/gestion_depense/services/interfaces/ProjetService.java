@@ -9,10 +9,11 @@ import java.util.List;
 
 public interface ProjetService {
 
-    Projet saveProjet(String titre, Date dateDebut, Date dateFin, double montantTotal);
+    ProjetDTO saveProjet(ProjetDTO projetDTO) throws ProjectNotFoundException;
 
     void deleteprojet(int projetId);
-    Projet editProjet(Projet projet);
+    ProjetDTO updateProjet(ProjetDTO projetDTO);
+
     List<ProjetDTO> listProjet();
-    Projet getProjet(int id) throws ProjectNotFoundException;
+    ProjetDTO getProjet(int id) throws ProjectNotFoundException;
 }

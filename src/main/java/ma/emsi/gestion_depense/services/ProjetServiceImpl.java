@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
 import ma.emsi.gestion_depense.dtos.ProjetDTO;
-import ma.emsi.gestion_depense.entities.Depense;
 import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
 import ma.emsi.gestion_depense.repositories.ProjetRepository;
@@ -12,7 +11,6 @@ import ma.emsi.gestion_depense.services.interfaces.ProjetService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,15 +24,11 @@ public class ProjetServiceImpl implements ProjetService {
     GestionDepenseMapper gdp;
 
     @Override
-    public Projet saveProjet(String titre, Date dateDebut, Date dateFin, double montantTotal) {
+    public ProjetDTO saveProjet(ProjetDTO projetDTO) throws ProjectNotFoundException {
         log.info("Ajout d'un projet");
-        Projet projet= new Projet();
-        projet.setTitre(titre);
-        projet.setMontantTotal(montantTotal);
-        projet.setDateDebut(dateDebut);
-        projet.setDateFin(dateFin);
-        projetRepository.save(projet);
-        return null;
+        Projet projet= gdp.fromProjetDTO(projetDTO);
+        Projet projet1= projetRepository.save(projet);
+        return gdp.fromProjet(projet1);
     }
 
     @Override
@@ -44,10 +38,12 @@ public class ProjetServiceImpl implements ProjetService {
     }
 
     @Override
-    public Projet editProjet(Projet projet) {
-        return null;
+    public ProjetDTO updateProjet(ProjetDTO projetDTO) {
+        log.info("edit projet");
+        Projet projet=gdp.fromProjetDTO(projetDTO);
+        Projet projet1=projetRepository.save(projet);
+        return  gdp.fromProjet(projet1);
     }
-
     @Override
     public List<ProjetDTO> listProjet() {
         List<Projet> list= projetRepository.findAll();
@@ -55,8 +51,9 @@ public class ProjetServiceImpl implements ProjetService {
     }
 
     @Override
-    public Projet getProjet(int id) throws ProjectNotFoundException {
-        return projetRepository.findById(id).orElseThrow(()->new ProjectNotFoundException("Projet Introuvable"));
+    public ProjetDTO getProjet(int id) throws ProjectNotFoundException {
+        Projet projet=projetRepository.findById(id).orElseThrow(()->new ProjectNotFoundException("Projet Introuvable"));
+        return gdp.fromProjet(projet);
     }
 
 

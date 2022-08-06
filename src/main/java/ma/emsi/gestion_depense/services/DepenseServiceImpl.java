@@ -3,11 +3,8 @@ package ma.emsi.gestion_depense.services;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.DepenseNotFoundException;
-import ma.emsi.gestion_depense.Exceptions.DeplacementNotFoundException;
 import ma.emsi.gestion_depense.dtos.DepenseDTO;
 import ma.emsi.gestion_depense.entities.Depense;
-import ma.emsi.gestion_depense.entities.Deplacement;
-import ma.emsi.gestion_depense.entities.enums.ModeReglement;
 import ma.emsi.gestion_depense.entities.enums.Status;
 import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
 import ma.emsi.gestion_depense.repositories.DeplacementRepository;
@@ -30,18 +27,11 @@ public class DepenseServiceImpl implements DepenseService {
     GestionDepenseMapper gdp;
 
     @Override
-    public Depense saveDepense(double montant, ModeReglement modeReglement, int deplacementId) throws DeplacementNotFoundException {
+    public DepenseDTO saveDepense(DepenseDTO depenseDTO) throws DepenseNotFoundException {
         log.info("ajout d'une depense");
-        Deplacement deplacement= deplacementRepository.findById(deplacementId).orElse(null);
-        if(deplacement==null)
-            throw new DeplacementNotFoundException("Deplacement Introuvable");
-        Depense depense= new Depense();
-        depense.setStatus(Status.PENDING);
-        depense.setMontant(montant);
-        depense.setModeReglement(modeReglement);
-        depense.setDeplacement(deplacement);
-        depenseRepository.save(depense);
-        return depense;
+        Depense depense=gdp.fromDepenseDTO(depenseDTO);
+        Depense depense1= depenseRepository.save(depense);
+        return gdp.fromDepense(depense1);
     }
 
     @Override

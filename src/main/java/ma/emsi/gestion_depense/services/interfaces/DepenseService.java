@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface DepenseService {
 
-    Depense saveDepense(double montant, ModeReglement modeReglement, int deplacementId) throws DeplacementNotFoundException;
+    DepenseDTO saveDepense(DepenseDTO depenseDTO) throws DepenseNotFoundException;
 
     void deleteDepense(int depenseId);
     Depense editDepense(Depense depense);
