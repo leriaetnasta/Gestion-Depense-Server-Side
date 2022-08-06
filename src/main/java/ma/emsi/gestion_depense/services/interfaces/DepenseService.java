@@ -13,14 +13,14 @@ public interface DepenseService {
     DepenseDTO saveDepense(DepenseDTO depenseDTO) throws DepenseNotFoundException;
 
     void deleteDepense(int depenseId);
-    Depense editDepense(Depense depense);
 
+    DepenseDTO updateDepense(DepenseDTO depenseDTO);
 
-    Depense Accepter(int id) throws DepenseNotFoundException;
+    DepenseDTO Accepter(int id) throws DepenseNotFoundException;
 
-    Depense Rejeter(int id) throws DepenseNotFoundException;
+    DepenseDTO Rejeter(int id) throws DepenseNotFoundException;
 
     List<DepenseDTO> listDepense();
 
-    Depense getDepense(int depenseId) throws DepenseNotFoundException;
+    DepenseDTO getDepense(int depenseId) throws DepenseNotFoundException;
 }

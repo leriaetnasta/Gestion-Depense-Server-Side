@@ -42,21 +42,24 @@ public class DepenseServiceImpl implements DepenseService {
     }
 
     @Override
-    public Depense editDepense(Depense depense) {
-        return null;
+    public DepenseDTO updateDepense(DepenseDTO depenseDTO) {
+        log.info("edit depense");
+        Depense depense=gdp.fromDepenseDTO(depenseDTO);
+        Depense depense1=depenseRepository.save(depense);
+        return  gdp.fromDepense(depense1);
     }
 
     @Override
-    public Depense Accepter(int id) throws DepenseNotFoundException {
+    public DepenseDTO Accepter(int id) throws DepenseNotFoundException {
         Depense depense= depenseRepository.findById(id).orElseThrow(()-> new DepenseNotFoundException("Deplacement Introuvable"));
         depense.setStatus(Status.ACCEPTE);
-        return depense;
+        return gdp.fromDepense(depense);
     }
     @Override
-    public Depense Rejeter(int id) throws DepenseNotFoundException {
+    public DepenseDTO Rejeter(int id) throws DepenseNotFoundException {
         Depense depense= depenseRepository.findById(id).orElseThrow(()-> new DepenseNotFoundException("Deplacement Introuvable"));
         depense.setStatus(Status.REJETE);
-        return depense;
+        return gdp.fromDepense(depense);
     }
 
     @Override
@@ -66,7 +69,8 @@ public class DepenseServiceImpl implements DepenseService {
     }
 
     @Override
-    public Depense getDepense(int depenseId) throws DepenseNotFoundException {
-        return depenseRepository.findById(depenseId).orElseThrow(()-> new DepenseNotFoundException("Deplacement Introuvable"));
+    public DepenseDTO getDepense(int depenseId) throws DepenseNotFoundException {
+        Depense depense=depenseRepository.findById(depenseId).orElseThrow(()-> new DepenseNotFoundException("Deplacement Introuvable"));
+        return gdp.fromDepense(depense);
     }
 }
