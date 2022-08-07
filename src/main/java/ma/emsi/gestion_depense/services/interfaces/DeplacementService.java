@@ -12,12 +12,12 @@ import java.util.List;
 public interface DeplacementService {
 
 
-
-
-    Deplacement saveDeplacement(Date dateDepart, Date dateRetour, int employeId, int projetId, String adresse /*, int adresseId*/) throws EmployeNotFoundException, DeplacementNotFoundException, ProjectNotFoundException/*, AdresseNotFoundException*/;
+    DeplacementDTO saveDeplacement(DeplacementDTO deplacementDTO) throws DeplacementNotFoundException;
 
     void deleteDeplacement(int deplacementId);
-    Deplacement editDeplacement(Deplacement deplacement);
+
+    DeplacementDTO updateDeplacement(DeplacementDTO deplacementDTO);
+
     List<DeplacementDTO> listDeplacement();
 
     DeplacementDTO getDeplacement(int deplacementId) throws DeplacementNotFoundException;

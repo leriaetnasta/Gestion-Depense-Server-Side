@@ -3,12 +3,8 @@ package ma.emsi.gestion_depense.services;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.DeplacementNotFoundException;
-import ma.emsi.gestion_depense.Exceptions.EmployeNotFoundException;
-import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
 import ma.emsi.gestion_depense.dtos.DeplacementDTO;
 import ma.emsi.gestion_depense.entities.Deplacement;
-import ma.emsi.gestion_depense.entities.Employe;
-import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
 import ma.emsi.gestion_depense.repositories.DeplacementRepository;
 import ma.emsi.gestion_depense.repositories.EmployeRepository;
@@ -17,7 +13,6 @@ import ma.emsi.gestion_depense.services.interfaces.DeplacementService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,28 +28,11 @@ public class DeplacementServiceImpl implements DeplacementService {
     GestionDepenseMapper gdp;
 
     @Override
-    public Deplacement saveDeplacement(Date dateDepart, Date dateRetour, int employeId, int projetId, String adresse) throws EmployeNotFoundException, DeplacementNotFoundException, ProjectNotFoundException/*, AdresseNotFoundException*/ {
+    public DeplacementDTO saveDeplacement(DeplacementDTO deplacementDTO) throws DeplacementNotFoundException{
         log.info("Ajout d'un deplacement");
-
-        Employe employe= employeRepository.findById(employeId).orElse(null);
-        Projet projet= projetRepository.findById(projetId).orElse(null);
-        //Adresse adresse= adresseRepository.findById(adresseId).orElse(null);
-
-        if(employe==null)
-            throw  new EmployeNotFoundException("Employé Introuvable");
-        if(projet==null)
-            throw new ProjectNotFoundException("Projet Introuvable");
-       /* if(adresse==null)
-            throw new AdresseNotFoundException("Adresse Introuvable");*/
-        Deplacement deplacement=new Deplacement();
-        deplacement.setAdresse(adresse);
-        deplacement.setDateDepart(dateDepart);
-        deplacement.setProjet(projet);
-        deplacement.setEmploye(employe);
-        deplacement.setDateRetour(dateRetour);
-        deplacement.setDateDepart(dateDepart);
-        deplacementRepository.save(deplacement);
-        return deplacement;
+        Deplacement deplacement= gdp.fromDeplacementDTO(deplacementDTO);
+        Deplacement deplacement1= deplacementRepository.save(deplacement);
+        return gdp.fromDeplacement(deplacement1);
     }
 
     @Override
@@ -65,10 +43,12 @@ public class DeplacementServiceImpl implements DeplacementService {
     }
 
     @Override
-    public Deplacement editDeplacement(Deplacement deplacement) {
-        return null;
+    public DeplacementDTO updateDeplacement(DeplacementDTO deplacementDTO) {
+        log.info("edit deplacement");
+        Deplacement deplacement=gdp.fromDeplacementDTO(deplacementDTO);
+        Deplacement deplacement1=deplacementRepository.save(deplacement);
+        return  gdp.fromDeplacement(deplacement1);
     }
-
     @Override
     public List<DeplacementDTO> listDeplacement() {
         List<Deplacement> list= deplacementRepository.findAll();
