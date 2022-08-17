@@ -6,8 +6,6 @@ import ma.emsi.gestion_depense.Exceptions.EmployeNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
 import ma.emsi.gestion_depense.dtos.EmployeDTO;
 import ma.emsi.gestion_depense.entities.Employe;
-import ma.emsi.gestion_depense.entities.Projet;
-import ma.emsi.gestion_depense.entities.enums.Departement;
 import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
 import ma.emsi.gestion_depense.repositories.EmployeRepository;
 import ma.emsi.gestion_depense.repositories.ProjetRepository;
@@ -29,27 +27,11 @@ public class EmployeServiceImpl implements EmployeService {
     GestionDepenseMapper gdp;
 
     @Override
-    public Employe saveEmploye(String nom, String prenom, String phone, String Matricule, Departement departement, String email, List<Projet> listProjet) throws ProjectNotFoundException {
+    public Employe saveEmploye(EmployeDTO employeDTO) {
         log.info("Ajout d'un employé");
-
-        if(listProjet==null)
-            throw new ProjectNotFoundException("Projet Introuvable");
-        Employe employe= new Employe();
-        employe.setNom(nom);
-        employe.setPrenom(prenom);
-        employe.setMatricule(Matricule);
-        employe.setEmail(email);
-        employe.setPhoneNumber(phone);
-        employe.setId((int)(Math.random()*666));
-        employe.setDepartement(departement);
-        employe.setProjet(listProjet);
-        return employeRepository.save(employe);
-    }
-    @Override
-    public Employe saveEmploye2(Employe employe) throws ProjectNotFoundException {
-        log.info("Ajout d'un employé");
-
-        return employeRepository.save(employe);
+        Employe employe= gdp.fromEmployeDTO(employeDTO);
+        Employe employe1= employeRepository.save(employe);
+        return employe1;
     }
 
     @Override
@@ -71,15 +53,7 @@ public class EmployeServiceImpl implements EmployeService {
         employeRepository.deleteById(employeId);
     }
 
-   /* @Override
-    public Employe getEmploye(int employeId) throws EmployeNotFoundException {
-        Employe employe=employeRepository.findById(employeId).orElse(null);
-        if (employe == null)
-            throw new EmployeNotFoundException("Employé Introuvable");
 
-        return employeRepository.findById(employeId).orElseThrow(()-> new EmployeNotFoundException("Employé Introuvable"));
-
-    }*/
     @Override
     public Employe getEmploye(int employeId) throws EmployeNotFoundException {
          return employeRepository.findById(employeId).orElseThrow(()-> new EmployeNotFoundException("Employé Introuvable"));

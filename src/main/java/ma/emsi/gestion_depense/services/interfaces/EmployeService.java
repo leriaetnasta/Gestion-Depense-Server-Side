@@ -11,10 +11,9 @@ import java.util.List;
 
 public interface EmployeService {
 
-    Employe saveEmploye(String nom, String prenom, String phone, String Matricule, Departement departement, String email, List<Projet> listProjet) throws ProjectNotFoundException;
 
 
-    Employe saveEmploye2(Employe employe) throws ProjectNotFoundException;
+    Employe saveEmploye(EmployeDTO employeDTO);
 
     Employe editEmploye(Employe employe);
     List<EmployeDTO> listEmploye();
