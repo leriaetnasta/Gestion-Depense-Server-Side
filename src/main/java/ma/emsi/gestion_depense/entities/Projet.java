@@ -42,5 +42,7 @@ public class Projet {
 
     @ManyToOne
     @JoinColumn(name = "client_id" ,referencedColumnName = "id")
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+
     private Client client;
 }

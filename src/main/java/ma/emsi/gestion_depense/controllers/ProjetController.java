@@ -1,5 +1,7 @@
 package ma.emsi.gestion_depense.controllers;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.ClientNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
 import ma.emsi.gestion_depense.dtos.ClientDTO;
@@ -8,7 +10,10 @@ import ma.emsi.gestion_depense.services.interfaces.ProjetService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@AllArgsConstructor
+@Slf4j
+@RestController
+@CrossOrigin("*")
 public class ProjetController {
     private ProjetService projetService;
     @GetMapping("/projets")

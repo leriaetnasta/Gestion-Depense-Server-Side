@@ -32,9 +32,12 @@ public class Deplacement {
     private Date dateRetour;
 
     @ManyToOne
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+
     private Projet projet;
     @ManyToOne
-    @JoinColumn(name = "employe_id" ,referencedColumnName = "id")
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+
     private Employe employe;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "deplacement")

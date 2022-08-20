@@ -3,7 +3,6 @@ package ma.emsi.gestion_depense.services;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.EmployeNotFoundException;
-import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
 import ma.emsi.gestion_depense.dtos.EmployeDTO;
 import ma.emsi.gestion_depense.entities.Employe;
 import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
@@ -27,16 +26,21 @@ public class EmployeServiceImpl implements EmployeService {
     GestionDepenseMapper gdp;
 
     @Override
-    public Employe saveEmploye(EmployeDTO employeDTO) {
+    public EmployeDTO saveEmploye(EmployeDTO employeDTO) {
         log.info("Ajout d'un employé");
         Employe employe= gdp.fromEmployeDTO(employeDTO);
         Employe employe1= employeRepository.save(employe);
-        return employe1;
+        return gdp.fromEmploye(employe1);
     }
 
+
+
     @Override
-    public Employe editEmploye(Employe employe) {
-        return null;
+    public EmployeDTO updateEmploye(EmployeDTO employeDTO) {
+        log.info("edit employe");
+        Employe employe=gdp.fromEmployeDTO(employeDTO);
+        Employe employe1=employeRepository.save(employe);
+        return  gdp.fromEmploye(employe1);
     }
 
     @Override
@@ -55,12 +59,16 @@ public class EmployeServiceImpl implements EmployeService {
 
 
     @Override
-    public Employe getEmploye(int employeId) throws EmployeNotFoundException {
-         return employeRepository.findById(employeId).orElseThrow(()-> new EmployeNotFoundException("Employé Introuvable"));
+    public EmployeDTO getEmploye(int employeId) throws EmployeNotFoundException {
+         Employe employe= employeRepository.findById(employeId).orElseThrow(()-> new EmployeNotFoundException("Employé Introuvable"));
+         return gdp.fromEmploye(employe);
     }
 
+
     @Override
-    public Employe chercherEmploye(Employe employe) {
-        return null;
+    public List<EmployeDTO> chercherEmploye(String keyword) {
+        List<Employe> employes=employeRepository.rechercheEmploye(keyword);
+        List<EmployeDTO> employeDTOS = employes.stream().map(employe -> gdp.fromEmploye(employe)).collect(Collectors.toList());
+        return employeDTOS;
     }
 }

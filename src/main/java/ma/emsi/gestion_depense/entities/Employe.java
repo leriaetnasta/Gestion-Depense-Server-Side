@@ -33,7 +33,6 @@ public class Employe {
     @NotNull
     @Email
     @Size(max = 100)
-    @Column(unique = true)
     private String email;
 
     @NotNull

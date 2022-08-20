@@ -13,12 +13,13 @@ public interface EmployeService {
 
 
 
-    Employe saveEmploye(EmployeDTO employeDTO);
+    EmployeDTO saveEmploye(EmployeDTO employeDTO);
 
-    Employe editEmploye(Employe employe);
+    EmployeDTO updateEmploye(EmployeDTO employeDTO);
+
     List<EmployeDTO> listEmploye();
     void deleteEmploye(int employeId);
-    Employe getEmploye(int employeId) throws EmployeNotFoundException;
-    Employe chercherEmploye(Employe employe);
+    EmployeDTO getEmploye(int employeId) throws EmployeNotFoundException;
 
+    List<EmployeDTO> chercherEmploye(String keyword);
 }

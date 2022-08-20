@@ -34,6 +34,8 @@ public class Depense {
 
     @ManyToOne
     @JoinColumn(name = "deplacement_id" ,referencedColumnName = "id")
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+
     private Deplacement deplacement;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "depense")

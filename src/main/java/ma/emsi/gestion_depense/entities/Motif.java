@@ -1,5 +1,6 @@
 package ma.emsi.gestion_depense.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class Motif {
     private double montant;
     @ManyToOne
     @JoinColumn(name = "depense" ,referencedColumnName = "id")
+    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private Depense depense;
 
 }
