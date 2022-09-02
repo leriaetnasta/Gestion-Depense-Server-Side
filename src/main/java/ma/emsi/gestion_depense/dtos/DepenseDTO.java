@@ -19,7 +19,7 @@ public class DepenseDTO {
 
     private ModeReglement modeReglement;
 
-    private Deplacement deplacement;
+    private DeplacementDTO deplacement;
 
     private String commentaire;
 

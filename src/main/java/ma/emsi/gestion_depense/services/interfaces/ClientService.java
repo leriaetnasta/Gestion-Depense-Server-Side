@@ -15,4 +15,6 @@ public interface ClientService {
     ClientDTO updateClient(ClientDTO clientDTO);
 
     void deleteClient(int id);
+
+    List<ClientDTO> chercherClient(String keyword);
 }

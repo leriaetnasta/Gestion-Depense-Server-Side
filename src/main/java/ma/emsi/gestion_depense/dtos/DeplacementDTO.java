@@ -24,7 +24,7 @@ public class DeplacementDTO {
     private Date dateRetour;
 
     private Projet projet;
-    private Employe employe;
+    private EmployeDTO employe;
 
 
 

@@ -22,6 +22,12 @@ public class ClientController {
         
     }
 
+    @GetMapping("/clients/search")
+    public List<ClientDTO> ChercherClient(@RequestParam(name="keyword",defaultValue = "") String keyword){
+        return clientService.chercherClient("%"+ keyword+ "%");
+
+    }
+
     @GetMapping("/clients/{id}")
     public ClientDTO getClient(@PathVariable(name="id") int id) throws ClientNotFoundException {
         return clientService.getClient(id);

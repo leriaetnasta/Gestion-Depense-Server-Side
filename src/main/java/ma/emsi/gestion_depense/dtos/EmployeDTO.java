@@ -3,7 +3,11 @@ package ma.emsi.gestion_depense.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ma.emsi.gestion_depense.entities.Deplacement;
+import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.entities.enums.Departement;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Data

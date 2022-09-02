@@ -54,6 +54,12 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.deleteById(id);
     }
 
+    @Override
+    public  List<ClientDTO> chercherClient(String keyword){
+        List<Client> list= clientRepository.searchClient(keyword);
+        List<ClientDTO> list1= list.stream().map(client -> gdp.fromClient(client)).collect(Collectors.toList());
+        return list1;
+    }
 
 
 

@@ -19,6 +19,6 @@ public class MotifDTO {
     private String pieceJustificative;
 
     private double montant;
-    private Depense depense;
+    private DepenseDTO depense;
 
 }
