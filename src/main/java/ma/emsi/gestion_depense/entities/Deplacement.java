@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class Deplacement {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "deplacement")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private List<Depense> listdepense;
+    private List<Depense> listdepense= new ArrayList<>();
 
 
 

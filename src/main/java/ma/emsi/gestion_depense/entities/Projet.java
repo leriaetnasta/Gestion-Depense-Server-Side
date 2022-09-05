@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 @Entity
@@ -34,15 +35,14 @@ public class Projet {
 
     @ManyToMany(cascade =  CascadeType.ALL,mappedBy = "projet",fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private List<Employe> listEmploye;
+    private List<Employe> listEmploye= new ArrayList<>();
 
     @OneToMany(cascade =  CascadeType.ALL,mappedBy = "projet",fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private List<Deplacement> listDeplacement;
+    private List<Deplacement> listDeplacement =new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "client_id" ,referencedColumnName = "id")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-
     private Client client;
 }

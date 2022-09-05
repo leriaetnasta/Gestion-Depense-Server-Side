@@ -10,6 +10,7 @@ import ma.emsi.gestion_depense.entities.enums.Departement;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -48,12 +49,12 @@ public class Employe {
     @NotNull
     @ManyToMany(cascade =  CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private List<Projet> projet;
+    private List<Projet> projet= new ArrayList<>();
 
     @NotNull
     @OneToMany(cascade =  CascadeType.ALL,mappedBy = "employe",fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private List<Deplacement> listDeplacement;
+    private List<Deplacement> listDeplacement= new ArrayList<>();
 
 
 }

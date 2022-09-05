@@ -1,5 +1,6 @@
 package ma.emsi.gestion_depense.dtos;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import ma.emsi.gestion_depense.entities.Deplacement;
 import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.entities.enums.Departement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,6 +23,10 @@ public class EmployeDTO {
     private Departement departement;
     private String phoneNumber;
     private String matricule;
+
+    private List<Projet> projet=new ArrayList<>();
+    private List<Deplacement> listDeplacement=new ArrayList<>();
+
 
 
 }

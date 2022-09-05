@@ -4,8 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ma.emsi.gestion_depense.entities.Deplacement;
+import ma.emsi.gestion_depense.entities.Motif;
 import ma.emsi.gestion_depense.entities.enums.ModeReglement;
 import ma.emsi.gestion_depense.entities.enums.Status;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @Data
@@ -22,6 +26,8 @@ public class DepenseDTO {
     private DeplacementDTO deplacement;
 
     private String commentaire;
+    private List<Motif> listMotif=new ArrayList<>();
+
 
 
 }

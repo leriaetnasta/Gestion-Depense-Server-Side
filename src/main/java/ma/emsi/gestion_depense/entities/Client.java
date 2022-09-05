@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,5 +24,5 @@ public class Client {
 
     @OneToMany(cascade =  CascadeType.ALL,mappedBy = "client",fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private List<Projet> listProjet;
+    private List<Projet> listProjet= new ArrayList<>();
 }

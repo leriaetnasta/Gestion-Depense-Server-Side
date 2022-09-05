@@ -10,6 +10,7 @@ import ma.emsi.gestion_depense.entities.Projet;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class DeplacementDTO {
 
     private Projet projet;
     private EmployeDTO employe;
+    private List<Depense> listdepense=new ArrayList<>();
 
 
 
