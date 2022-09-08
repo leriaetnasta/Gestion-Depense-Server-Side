@@ -24,8 +24,8 @@ public class EmployeDTO {
     private String phoneNumber;
     private String matricule;
 
-    private List<Projet> projet=new ArrayList<>();
-    private List<Deplacement> listDeplacement=new ArrayList<>();
+    private List<ProjetDTO> projet=new ArrayList<>();
+    private List<DeplacementDTO> listDeplacement=new ArrayList<>();
 
 
 

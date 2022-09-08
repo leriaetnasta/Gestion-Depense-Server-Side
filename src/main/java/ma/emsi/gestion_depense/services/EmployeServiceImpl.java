@@ -3,8 +3,12 @@ package ma.emsi.gestion_depense.services;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.EmployeNotFoundException;
+import ma.emsi.gestion_depense.dtos.DeplacementDTO;
 import ma.emsi.gestion_depense.dtos.EmployeDTO;
+import ma.emsi.gestion_depense.dtos.ProjetDTO;
+import ma.emsi.gestion_depense.entities.Deplacement;
 import ma.emsi.gestion_depense.entities.Employe;
+import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
 import ma.emsi.gestion_depense.repositories.EmployeRepository;
 import ma.emsi.gestion_depense.repositories.ProjetRepository;
@@ -29,6 +33,33 @@ public class EmployeServiceImpl implements EmployeService {
     public EmployeDTO saveEmploye(EmployeDTO employeDTO) {
         log.info("Ajout d'un employé");
         Employe employe= gdp.fromEmployeDTO(employeDTO);
+        Employe employe1= employeRepository.save(employe);
+        return gdp.fromEmploye(employe1);
+    }
+    @Override
+    public EmployeDTO addProjetToEmploye(EmployeDTO employeDTO, ProjetDTO projetDTO){
+        log.info("affectation d'un projet a un employé");
+        Employe employe= gdp.fromEmployeDTO(employeDTO);
+        Projet projet=gdp.fromProjetDTO(projetDTO);
+        if(employe.getProjet()!=null){
+            employe.getProjet().add(projet);
+            projet.getListEmploye().add(employe); //pour etre correct dans l'oop
+        }
+        Employe employe1= employeRepository.save(employe);
+        return gdp.fromEmploye(employe1);
+
+    }
+    @Override
+
+    public EmployeDTO addDeplacementToEmploye(EmployeDTO employeDTO, DeplacementDTO deplacementDTO){
+
+        log.info("affectation d'un deplacement a un employé");
+        Employe employe= gdp.fromEmployeDTO(employeDTO);
+        Deplacement deplacement=gdp.fromDeplacementDTO(deplacementDTO);
+        if(employe.getListDeplacement()!=null){
+            employe.getListDeplacement().add(deplacement);
+            deplacement.setEmploye(employe);
+        }
         Employe employe1= employeRepository.save(employe);
         return gdp.fromEmploye(employe1);
     }

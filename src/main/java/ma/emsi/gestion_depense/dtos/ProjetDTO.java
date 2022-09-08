@@ -23,7 +23,7 @@ public class ProjetDTO {
     private Date dateDebut;
     private Date dateFin;
     private ClientDTO client;
-    private List<Employe> listEmploye= new ArrayList<>();
-    private List<Deplacement> listDeplacement =new ArrayList<>();
+    private List<EmployeDTO> listEmploye= new ArrayList<>();
+    private List<DeplacementDTO> listDeplacement =new ArrayList<>();
 
 }

@@ -26,7 +26,7 @@ public class DepenseDTO {
     private DeplacementDTO deplacement;
 
     private String commentaire;
-    private List<Motif> listMotif=new ArrayList<>();
+    private List<MotifDTO> listMotif=new ArrayList<>();
 
 
 

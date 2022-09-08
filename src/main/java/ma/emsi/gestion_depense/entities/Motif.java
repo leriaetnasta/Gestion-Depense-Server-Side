@@ -25,8 +25,9 @@ public class Motif {
 
     private double montant;
     @ManyToOne
-    @JoinColumn(name = "depense" ,referencedColumnName = "id")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    @JoinTable(name="motif_depense",joinColumns=@JoinColumn(name = "motif_id" ,referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name="depense_id"))
     private Depense depense;
 
 }

@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -47,14 +48,16 @@ public class Employe {
     private String matricule;
 
     @NotNull
-    @ManyToMany(cascade =  CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Projet.class,cascade =  CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private List<Projet> projet= new ArrayList<>();
+    @JoinTable(name="employe_projet",joinColumns=@JoinColumn(name = "employe_id"),
+            inverseJoinColumns = @JoinColumn(name="projet_id"))
+    private Collection<Projet> projet= new ArrayList<>();
 
     @NotNull
     @OneToMany(cascade =  CascadeType.ALL,mappedBy = "employe",fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private List<Deplacement> listDeplacement= new ArrayList<>();
+    private Collection<Deplacement> listDeplacement= new ArrayList<>();
 
 
 }

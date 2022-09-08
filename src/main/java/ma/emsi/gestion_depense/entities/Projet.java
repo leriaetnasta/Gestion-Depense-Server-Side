@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 @Entity
@@ -33,16 +34,18 @@ public class Projet {
     private Date dateFin;
 
 
-    @ManyToMany(cascade =  CascadeType.ALL,mappedBy = "projet",fetch = FetchType.LAZY)
+    @ManyToMany(cascade =  CascadeType.ALL,mappedBy = "projet",fetch = FetchType.EAGER)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private List<Employe> listEmploye= new ArrayList<>();
+
+    private Collection<Employe> listEmploye= new ArrayList<>();
 
     @OneToMany(cascade =  CascadeType.ALL,mappedBy = "projet",fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private List<Deplacement> listDeplacement =new ArrayList<>();
+    private Collection<Deplacement> listDeplacement =new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "client_id" ,referencedColumnName = "id")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    @JoinTable(name="projet_client",joinColumns=@JoinColumn(name = "projet_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name="client_id"))
     private Client client;
 }

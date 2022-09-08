@@ -9,6 +9,8 @@ import ma.emsi.gestion_depense.entities.enums.ModeReglement;
 import ma.emsi.gestion_depense.entities.enums.Status;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -33,14 +35,14 @@ public class Depense {
     private ModeReglement modeReglement;
 
     @ManyToOne
-    @JoinColumn(name = "deplacement_id" ,referencedColumnName = "id")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-
+    @JoinTable(name="depense_deplacement",joinColumns=@JoinColumn(name = "depende_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name="deplacement_id"))
     private Deplacement deplacement;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "depense")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private List<Motif> listMotif;
+    private Collection<Motif> listMotif= new ArrayList<>();
 
     private String commentaire;
 
