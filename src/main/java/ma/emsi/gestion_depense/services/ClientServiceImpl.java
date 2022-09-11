@@ -3,10 +3,14 @@ package ma.emsi.gestion_depense.services;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.ClientNotFoundException;
+import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
 import ma.emsi.gestion_depense.dtos.ClientDTO;
+import ma.emsi.gestion_depense.dtos.ProjetDTO;
 import ma.emsi.gestion_depense.entities.Client;
+import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
 import ma.emsi.gestion_depense.repositories.ClientRepository;
+import ma.emsi.gestion_depense.repositories.ProjetRepository;
 import ma.emsi.gestion_depense.services.interfaces.ClientService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ClientServiceImpl implements ClientService {
     ClientRepository clientRepository;
+    ProjetRepository projetRepository;
     GestionDepenseMapper gdp;
 
     @Override
@@ -60,8 +65,31 @@ public class ClientServiceImpl implements ClientService {
         List<ClientDTO> list1= list.stream().map(client -> gdp.fromClient(client)).collect(Collectors.toList());
         return list1;
     }
+    @Override //looks up a project via it's id then adds it to list of projects that belong to client whom id was passed
+    public void addProjetToClient(int clientId, int projectId) throws ClientNotFoundException, ProjectNotFoundException {
+        Client client= clientRepository.findById(clientId).orElse(null);
+        if(client==null) throw new ClientNotFoundException("client not found");
+        Projet projet=projetRepository.findById(projectId).orElse(null);
+        if(projet==null) throw new ProjectNotFoundException("projet not found");
+        client.getListProjet().add(projet);
+    }
 
+    @Override
+    public List<Projet> getprojets(int id) throws ClientNotFoundException, ProjectNotFoundException {
 
+        Client client= clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Aucun client avec l'id "+id+" trouvé"));
+        if(client.getListProjet().isEmpty()) throw new ProjectNotFoundException("Ce client n'a aucun projet.");
+        return client.getListProjet();
+    }
+
+    @Override
+    public List<ProjetDTO> getClientProjets(int id) throws ClientNotFoundException, ProjectNotFoundException {
+
+        Client client= clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Aucun client avec l'id "+id+" trouvé"));
+        if(client.getListProjet().isEmpty()) throw new ProjectNotFoundException("Ce client n'a aucun projet.");
+        List<ProjetDTO> projetDTOS= client.getListProjet().stream().map(p -> gdp.fromProjet(p)).collect(Collectors.toList());
+        return projetDTOS;
+    }
 
 
 

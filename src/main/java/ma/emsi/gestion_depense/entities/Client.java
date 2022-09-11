@@ -25,5 +25,5 @@ public class Client {
 
     @OneToMany(cascade =  CascadeType.ALL,mappedBy = "client",fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private Collection<Projet> listProjet= new ArrayList<>();
+    private List<Projet> listProjet= new ArrayList<Projet>();
 }
