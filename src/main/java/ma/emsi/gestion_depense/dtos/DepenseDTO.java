@@ -1,13 +1,14 @@
 package ma.emsi.gestion_depense.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ma.emsi.gestion_depense.entities.Deplacement;
-import ma.emsi.gestion_depense.entities.Motif;
 import ma.emsi.gestion_depense.entities.enums.ModeReglement;
 import ma.emsi.gestion_depense.entities.enums.Status;
 
+import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +24,11 @@ public class DepenseDTO {
 
     private ModeReglement modeReglement;
 
-    private DeplacementDTO deplacement;
+    private String titre;
+    private String pieceJustificative;
+    private DeplacementDTO deplacement=new DeplacementDTO();
 
     private String commentaire;
-    private List<MotifDTO> listMotif=new ArrayList<>();
 
 
 

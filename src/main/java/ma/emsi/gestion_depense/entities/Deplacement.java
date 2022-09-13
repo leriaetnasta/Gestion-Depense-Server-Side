@@ -46,7 +46,7 @@ public class Deplacement {
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "deplacement")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private Collection<Depense> listdepense= new ArrayList<>();
+    private List<Depense> listdepense= new ArrayList<Depense>();
 
 
 

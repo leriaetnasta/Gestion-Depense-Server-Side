@@ -28,7 +28,6 @@ public class Depense {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private double montant;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -40,9 +39,10 @@ public class Depense {
             inverseJoinColumns = @JoinColumn(name="deplacement_id"))
     private Deplacement deplacement;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "depense")
-    @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private Collection<Motif> listMotif= new ArrayList<>();
+    private String titre;
+    @Column(nullable = true, length = 64)
+    private String pieceJustificative;
+    private double montant;
 
     private String commentaire;
 

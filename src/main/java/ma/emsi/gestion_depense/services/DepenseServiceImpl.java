@@ -41,9 +41,12 @@ public class DepenseServiceImpl implements DepenseService {
         depenseRepository.deleteById(depenseid);
     }
 
+
     @Override
-    public DepenseDTO updateDepense(DepenseDTO depenseDTO) {
-        log.info("edit depense");
+    public DepenseDTO updateDepense(DepenseDTO depenseDTO) throws DepenseNotFoundException {
+        log.info("Edit depense");
+        getDepense(depenseDTO.getId());
+        //traitement dial depense not found a ajouter hihiii
         Depense depense=gdp.fromDepenseDTO(depenseDTO);
         Depense depense1=depenseRepository.save(depense);
         return  gdp.fromDepense(depense1);

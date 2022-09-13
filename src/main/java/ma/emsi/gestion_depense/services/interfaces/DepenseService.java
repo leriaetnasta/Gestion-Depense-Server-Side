@@ -10,11 +10,12 @@ import java.util.List;
 
 public interface DepenseService {
 
+
     DepenseDTO saveDepense(DepenseDTO depenseDTO) throws DepenseNotFoundException;
 
     void deleteDepense(int depenseId);
 
-    DepenseDTO updateDepense(DepenseDTO depenseDTO);
+    DepenseDTO updateDepense(DepenseDTO depenseDTO) throws DepenseNotFoundException;
 
     DepenseDTO Accepter(int id) throws DepenseNotFoundException;
 

@@ -32,7 +32,7 @@ public class DepenseController {
     }
     @PutMapping("/depenses/{id}")
 
-    public DepenseDTO updateDepense(@PathVariable int id,@RequestBody DepenseDTO depenseDTO){
+    public DepenseDTO updateDepense(@PathVariable int id,@RequestBody DepenseDTO depenseDTO) throws DepenseNotFoundException {
         depenseDTO.setId(id);
         return depenseService.updateDepense(depenseDTO);
     }
