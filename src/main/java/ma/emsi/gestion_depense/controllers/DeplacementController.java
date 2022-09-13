@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.DepenseNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.DeplacementNotFoundException;
+import ma.emsi.gestion_depense.dtos.ClientDTO;
 import ma.emsi.gestion_depense.dtos.DepenseDTO;
 import ma.emsi.gestion_depense.dtos.DeplacementDTO;
 import ma.emsi.gestion_depense.services.interfaces.DeplacementService;
@@ -40,4 +41,9 @@ public class DeplacementController {
     public void deleteDeplacement(@PathVariable int id){
         deplacementService.deleteDeplacement(id);
     }
+
+
+
+
+
 }

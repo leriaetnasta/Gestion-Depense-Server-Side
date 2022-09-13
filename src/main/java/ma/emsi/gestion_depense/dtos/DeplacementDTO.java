@@ -1,5 +1,6 @@
 package ma.emsi.gestion_depense.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,10 +24,10 @@ public class DeplacementDTO {
     String adresse;
     private Date dateDepart;
     private Date dateRetour;
-
-    private Projet projet;
+    private List<DepenseDTO> listdepense=new ArrayList<DepenseDTO>();
     private EmployeDTO employe;
-    private List<DepenseDTO> listdepense=new ArrayList<>();
+    private ProjetDTO projet;
+
 
 
 
