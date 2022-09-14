@@ -37,11 +37,11 @@ public class Projet {
     @ManyToMany(cascade =  CascadeType.ALL,mappedBy = "projet",fetch = FetchType.EAGER)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
 
-    private Collection<Employe> listEmploye= new ArrayList<>();
+    private List<Employe> listEmploye= new ArrayList<Employe>();
 
     @OneToMany(cascade =  CascadeType.ALL,mappedBy = "projet",fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private Collection<Deplacement> listDeplacement =new ArrayList<>();
+    private List<Deplacement> listDeplacement =new ArrayList<Deplacement>();
 
     @ManyToOne
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)

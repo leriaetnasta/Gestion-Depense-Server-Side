@@ -2,10 +2,13 @@ package ma.emsi.gestion_depense.services;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ma.emsi.gestion_depense.Exceptions.ClientNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
 import ma.emsi.gestion_depense.dtos.ProjetDTO;
+import ma.emsi.gestion_depense.entities.Client;
 import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
+import ma.emsi.gestion_depense.repositories.ClientRepository;
 import ma.emsi.gestion_depense.repositories.ProjetRepository;
 import ma.emsi.gestion_depense.services.interfaces.ProjetService;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ProjetServiceImpl implements ProjetService {
     ProjetRepository projetRepository;
+    ClientRepository clientRepository;
     GestionDepenseMapper gdp;
 
     @Override
@@ -36,7 +40,12 @@ public class ProjetServiceImpl implements ProjetService {
         log.info("Suppression du projet N°"+projetId);
         projetRepository.deleteById(projetId);
     }
-
+    @Override
+    public  List<ProjetDTO> chercherProjet(String keyword){
+        List<Projet> list= projetRepository.searchProjet(keyword);
+        List<ProjetDTO> list1= list.stream().map(projet -> gdp.fromProjet(projet)).collect(Collectors.toList());
+        return list1;
+    }
     @Override
     public ProjetDTO updateProjet(ProjetDTO projetDTO) {
         log.info("edit projet");
@@ -56,5 +65,13 @@ public class ProjetServiceImpl implements ProjetService {
         return gdp.fromProjet(projet);
     }
 
+    @Override // I give it a client id and it gives me list of projects of said client
+    public List<ProjetDTO> projetOfClientId(int clientId) throws ClientNotFoundException {
+        Client client=clientRepository.findById(clientId).orElse(null);
+        if(client==null) throw new ClientNotFoundException("Client not Found");
+        List<Projet> projets = projetRepository.findByClientId(clientId);
+        return projets.stream().map(p->gdp.fromProjet(p)).collect(Collectors.toList());
+    }
+   
 
 }

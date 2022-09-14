@@ -40,4 +40,14 @@ public class ProjetController {
     public void deleteProjet(@PathVariable int id){
         projetService.deleteprojet(id);
     }
+
+    @GetMapping("/projets/{id}/clients") // find the projects that belong to client of id (passed in param)
+    public List<ProjetDTO> getDepenseDeProjet(@PathVariable int id) throws ClientNotFoundException {
+        return projetService.projetOfClientId(id);
+    }
+    @GetMapping("/projets/search")
+    public List<ProjetDTO> ChercherProjet(@RequestParam(name="keyword",defaultValue = "") String keyword){
+        return projetService.chercherProjet("%"+ keyword+ "%");
+
+    }
 }
