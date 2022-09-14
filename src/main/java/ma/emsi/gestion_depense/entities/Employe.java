@@ -48,16 +48,16 @@ public class Employe {
     private String matricule;
 
     @NotNull
-    @ManyToMany(targetEntity = Projet.class,cascade =  CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Projet.class,cascade =  CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    @JoinTable(name="employe_projet",joinColumns=@JoinColumn(name = "employe_id"),
+    @JoinTable(name="employe_projet",joinColumns=@JoinColumn(name = "employe_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="projet_id"))
-    private Collection<Projet> projet= new ArrayList<>();
+    private List<Projet> projet= new ArrayList<Projet>();
 
     @NotNull
     @OneToMany(cascade =  CascadeType.ALL,mappedBy = "employe",fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
-    private Collection<Deplacement> listDeplacement= new ArrayList<>();
+    private List<Deplacement> listDeplacement= new ArrayList<Deplacement>();
 
 
 }

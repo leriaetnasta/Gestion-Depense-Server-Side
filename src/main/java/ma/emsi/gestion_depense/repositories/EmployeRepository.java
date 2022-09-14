@@ -23,4 +23,5 @@ public interface EmployeRepository extends JpaRepository<Employe,Integer> {
     @Query("select new ma.emsi.gestion_depense.dtos.EmployeProjetDTO(e.nom,p.titre) from Employe e join e.projet p ")
     List<EmployeProjetDTO> findEmployeAndProject();
 
+
 }
