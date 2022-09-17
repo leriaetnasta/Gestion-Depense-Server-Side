@@ -18,26 +18,26 @@ import java.util.List;
 @CrossOrigin("*")
 public class DeplacementController {
     DeplacementService deplacementService;
-    @GetMapping("/deplacements")
+    @GetMapping("/user/deplacements")
     public List<DeplacementDTO> deplacements(){
         return deplacementService.listDeplacement();
     }
-    @GetMapping("/deplacements/{id}")
+    @GetMapping("/user/deplacements/{id}")
     public DeplacementDTO getDeplacement(@PathVariable(name="id") int id) throws DeplacementNotFoundException {
         return deplacementService.getDeplacement(id);
     }
-    @PostMapping("/deplacements")
+    @PostMapping("/admin/deplacements")
     public DeplacementDTO saveDeplacement(@RequestBody DeplacementDTO deplacementDTO) throws DeplacementNotFoundException {
         return deplacementService.saveDeplacement(deplacementDTO);
     }
-    @PutMapping("/deplacements/{id}")
+    @PutMapping("/admin/deplacements/{id}")
 
     public DeplacementDTO updateDeplacement(@PathVariable int id,@RequestBody DeplacementDTO deplacementDTO){
         deplacementDTO.setId(id);
         return deplacementService.updateDeplacement(deplacementDTO);
     }
 
-    @DeleteMapping("/deplacements/{id}")
+    @DeleteMapping("/admin/deplacements/{id}")
     public void deleteDeplacement(@PathVariable int id){
         deplacementService.deleteDeplacement(id);
     }
