@@ -27,7 +27,7 @@ public class ClientServiceImpl implements ClientService {
     ProjetRepository projetRepository;
     GestionDepenseMapper gdp;
 
-    @Override
+     @Override
     public List<ClientDTO> listClient() {
         List<Client> list= clientRepository.findAll();
         return list.stream().map(client -> gdp.fromClient(client)).collect(Collectors.toList());
@@ -67,11 +67,16 @@ public class ClientServiceImpl implements ClientService {
     }
     @Override //looks up a project via it's id then adds it to list of projects that belong to client whom id was passed
     public void addProjetToClient(int clientId, int projectId) throws ClientNotFoundException, ProjectNotFoundException {
+        log.info("Operation: Ajout d'un projet a un client");
+
         Client client= clientRepository.findById(clientId).orElse(null);
         if(client==null) throw new ClientNotFoundException("client not found");
         Projet projet=projetRepository.findById(projectId).orElse(null);
         if(projet==null) throw new ProjectNotFoundException("projet not found");
         client.getListProjet().add(projet);
+        projet.setClient(client);
+        clientRepository.save(client);
+        projetRepository.save(projet);
     }
 
     @Override
@@ -82,14 +87,14 @@ public class ClientServiceImpl implements ClientService {
         return client.getListProjet();
     }
 
-    @Override
+   /* @Override
     public List<ProjetDTO> getClientProjets(int id) throws ClientNotFoundException, ProjectNotFoundException {
 
         Client client= clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Aucun client avec l'id "+id+" trouvé"));
         if(client.getListProjet().isEmpty()) throw new ProjectNotFoundException("Ce client n'a aucun projet.");
         List<ProjetDTO> projetDTOS= client.getListProjet().stream().map(p -> gdp.fromProjet(p)).collect(Collectors.toList());
         return projetDTOS;
-    }
+    }*/
 
 
 

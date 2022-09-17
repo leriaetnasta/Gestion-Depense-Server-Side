@@ -21,56 +21,59 @@ import java.util.List;
 public class ClientController {
     private ClientService clientService;
 
-    @GetMapping("/clients")
+    @GetMapping("/user/clients")
     public List<ClientDTO> clients(){
         return clientService.listClient();
         
     }
 
-    @GetMapping("/clients/search")
+    @GetMapping("/user/clients/search")
     public List<ClientDTO> ChercherClient(@RequestParam(name="keyword",defaultValue = "") String keyword){
         return clientService.chercherClient("%"+ keyword+ "%");
 
     }
 
-    @GetMapping("/clients/{id}")
+    @GetMapping("/user/clients/{id}")
     public ClientDTO getClient(@PathVariable(name="id") int id) throws ClientNotFoundException {
         return clientService.getClient(id);
     }
 
-    @PostMapping("/clients")
+    @PostMapping("/admin/clients")
     public ClientDTO saveClient(@RequestBody ClientDTO clientDTO) throws ClientNotFoundException {
         return clientService.saveClient(clientDTO);
     }
 
-    @PutMapping("/clients/update/{id}")
+    @PutMapping("/admin/clients/update/{id}")
     public ClientDTO updateClient(@PathVariable int id,@RequestBody ClientDTO clientDTO){
         clientDTO.setId(id);
         return clientService.updateClient(clientDTO);
     }
 
 
-    @DeleteMapping("/clients/{id}")
+    @DeleteMapping("/admin/clients/{id}")
     public void deleteClient(@PathVariable int id){
         clientService.deleteClient(id);
     }
 
-    @PutMapping("/clients/addprojets")
-    public void addProjetEmploye( @RequestBody int clientDd, int  projetID) throws ClientNotFoundException, ProjectNotFoundException {
-         clientService.addProjetToClient(clientDd,projetID);
+    @PutMapping("/admin/clients/{id}/addprojets")
+
+    public void addProjetEmploye( @PathVariable(name="id") int id, @RequestBody int[]  arr) throws ClientNotFoundException, ProjectNotFoundException {
+
+        log.info("ajout projet "+arr[1]+" au client "+arr[0]);
+        clientService.addProjetToClient(id,arr[1]);
     }
-    @GetMapping("/clients/{id}/projets")
+    @GetMapping("/user/clients/{id}/projets")
     @ResponseStatus(HttpStatus.OK) // this method is supposed to print every project that is below the client
     public List<Projet> getProjets(@PathVariable(name="id") int id) throws ClientNotFoundException,ProjectNotFoundException
     {
         return clientService.getprojets(id);
     }
 
-    @GetMapping("/clients/{id}/clientprojets")
+   /* @GetMapping("/user/clients/{id}/clientprojets")
     public List<ProjetDTO> listerClientProjets( @PathVariable int id) throws ProjectNotFoundException, ClientNotFoundException {
         return clientService.getClientProjets(id);
 
-    }
+    }*/
 
 
 

@@ -26,5 +26,5 @@ public interface ClientService {
 
     List<Projet> getprojets(int id) throws ClientNotFoundException, ProjectNotFoundException;
 
-    List<ProjetDTO> getClientProjets(int id) throws ClientNotFoundException, ProjectNotFoundException;
+    //List<ProjetDTO> getClientProjets(int id) throws ClientNotFoundException, ProjectNotFoundException;
 }
