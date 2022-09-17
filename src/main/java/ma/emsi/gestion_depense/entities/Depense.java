@@ -40,7 +40,7 @@ public class Depense {
     private Deplacement deplacement;
 
     private String titre;
-    @Column(nullable = true, length = 64)
+    @Column(nullable = true)
     private String pieceJustificative;
     private double montant;
 

@@ -17,27 +17,26 @@ import java.util.List;
 @CrossOrigin("*")
 public class DepenseController {
     DepenseService depenseService;
-    @GetMapping("/depenses")
+    @GetMapping("/user/depenses")
     public List<DepenseDTO> depenses(){
         return depenseService.listDepense();
-
     }
-    @GetMapping("/depenses/{id}")
+    @GetMapping("/user/depenses/{id}")
     public DepenseDTO getDepense(@PathVariable(name="id") int id) throws DepenseNotFoundException {
         return depenseService.getDepense(id);
     }
-    @PostMapping("/depenses")
+    @PostMapping("/admin/depenses")
     public DepenseDTO saveDepense(@RequestBody DepenseDTO depenseDTO) throws DepenseNotFoundException {
         return depenseService.saveDepense(depenseDTO);
     }
-    @PutMapping("/depenses/{id}")
+    @PutMapping("/admin/depenses/{id}")
 
     public DepenseDTO updateDepense(@PathVariable int id,@RequestBody DepenseDTO depenseDTO) throws DepenseNotFoundException {
         depenseDTO.setId(id);
         return depenseService.updateDepense(depenseDTO);
     }
 
-    @DeleteMapping("/depenses/{id}")
+    @DeleteMapping("/admin/depenses/{id}")
     public void deleteDepense(@PathVariable int id){
         depenseService.deleteDepense(id);
     }
