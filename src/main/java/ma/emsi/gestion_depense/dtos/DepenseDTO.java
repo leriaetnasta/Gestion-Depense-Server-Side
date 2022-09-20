@@ -1,6 +1,7 @@
 package ma.emsi.gestion_depense.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,7 @@ public class DepenseDTO {
 
     private String titre;
     private String pieceJustificative;
-    private DeplacementDTO deplacement=new DeplacementDTO();
+    private DeplacementDTO deplacement;
 
     private String commentaire;
 
