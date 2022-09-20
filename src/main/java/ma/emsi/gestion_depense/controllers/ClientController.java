@@ -1,14 +1,14 @@
 package ma.emsi.gestion_depense.controllers;
 
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.ClientNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
 import ma.emsi.gestion_depense.dtos.ClientDTO;
-import ma.emsi.gestion_depense.dtos.EmployeDTO;
-import ma.emsi.gestion_depense.dtos.ProjetDTO;
 import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.services.interfaces.ClientService;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,8 +39,15 @@ public class ClientController {
     }
 
     @PostMapping("/admin/clients")
-    public ClientDTO saveClient(@RequestBody ClientDTO clientDTO) throws ClientNotFoundException {
-        return clientService.saveClient(clientDTO);
+    public ClientDTO saveClient(@RequestBody String myObject) throws  ProjectNotFoundException {
+        JSONObject jsonObject = new JSONObject(myObject);
+        JSONObject myobj = jsonObject.getJSONObject("client");
+        int idP= jsonObject.getInt("idP");
+        Gson gson= new Gson();
+        ClientDTO clientDTO = gson.fromJson(myobj.toString(),ClientDTO.class);
+
+
+        return clientService.saveClient(clientDTO,idP);
     }
 
     @PutMapping("/admin/clients/update/{id}")

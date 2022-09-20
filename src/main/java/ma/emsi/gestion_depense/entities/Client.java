@@ -23,7 +23,7 @@ public class Client {
 
     String nom;
 
-    @OneToMany(cascade =  CascadeType.ALL,mappedBy = "client",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "client",fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     private List<Projet> listProjet= new ArrayList<Projet>();
 }

@@ -13,7 +13,8 @@ public interface ClientService {
 
     ClientDTO getClient(int i) throws ClientNotFoundException;
 
-    ClientDTO saveClient(ClientDTO clientDTO) throws ClientNotFoundException;
+
+    ClientDTO saveClient(ClientDTO clientDTO, int idP) throws ProjectNotFoundException;
 
     ClientDTO updateClient(ClientDTO clientDTO);
 

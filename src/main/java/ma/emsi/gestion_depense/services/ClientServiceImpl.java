@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.ClientNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
 import ma.emsi.gestion_depense.dtos.ClientDTO;
-import ma.emsi.gestion_depense.dtos.ProjetDTO;
 import ma.emsi.gestion_depense.entities.Client;
 import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
@@ -40,10 +39,21 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDTO saveClient(ClientDTO clientDTO) throws ClientNotFoundException {
+    public ClientDTO saveClient(ClientDTO clientDTO, int idP) throws ProjectNotFoundException {
         log.info("Ajout d'un client");
-
+        //step 1: we cast the objectDTO into an object
         Client client= gdp.fromClientDTO(clientDTO);
+        //step 2: search if the related object exists in its table, we take the id of the object and look for it
+        //if object not found we throw an exception
+        Projet projet=projetRepository.findById(idP).orElse(null);
+        if(projet==null) throw new ProjectNotFoundException("projet not found");
+        //step 3: after we'e  established that the object exists now we add the object into the list
+        client.getListProjet().add(projet);
+        //step 4: to respect oop we add the object in the related object's table
+        projet.setClient(client);
+        //step 5: we save the related object
+        projetRepository.save(projet);
+        //step 6: we save our object and return a DTO
         Client client1=clientRepository.save(client);
         return gdp.fromClient(client1);
     }
