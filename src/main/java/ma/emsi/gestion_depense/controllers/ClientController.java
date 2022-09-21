@@ -58,7 +58,7 @@ public class ClientController {
 
 
     @DeleteMapping("/admin/clients/{id}")
-    public void deleteClient(@PathVariable int id){
+    public void deleteClient(@PathVariable int id) throws ClientNotFoundException {
         clientService.deleteClient(id);
     }
 
@@ -82,6 +82,10 @@ public class ClientController {
 
     }*/
 
+    @DeleteMapping("/admin/clients/{idC}/projet/{idP}")
+    public void removeProjetFromClient(@PathVariable(name="idC") int idC,@PathVariable(name="idP") int idP) throws ProjectNotFoundException, ClientNotFoundException {
+        clientService.removeProjetFromClient(idC,idP);
+    }
 
 
 

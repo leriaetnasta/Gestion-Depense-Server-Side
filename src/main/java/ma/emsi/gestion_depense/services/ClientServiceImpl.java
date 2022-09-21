@@ -65,7 +65,9 @@ public class ClientServiceImpl implements ClientService {
         return  gdp.fromClient(client1);
     }
     @Override
-    public void deleteClient(int id){
+    public void deleteClient(int id) throws ClientNotFoundException {
+        Client client =clientRepository.findById(id).orElse(null);
+        if(client==null) throw new ClientNotFoundException("client not found");
         clientRepository.deleteById(id);
     }
 
@@ -107,5 +109,14 @@ public class ClientServiceImpl implements ClientService {
     }*/
 
 
+    @Override
+    public void removeProjetFromClient(int idC, int idP ) throws ClientNotFoundException, ProjectNotFoundException {
+        Client client =clientRepository.findById(idC).orElse(null);
+        if(client==null) throw new ClientNotFoundException("client not found");
+        Projet projet=projetRepository.findById(idP).orElse(null);
+        if(projet==null) throw new ProjectNotFoundException("projet not found");
+        client.getListProjet().remove(projet);
+        clientRepository.save(client);
+    }
 
 }

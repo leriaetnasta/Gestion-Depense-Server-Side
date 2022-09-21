@@ -18,7 +18,7 @@ public interface ClientService {
 
     ClientDTO updateClient(ClientDTO clientDTO);
 
-    void deleteClient(int id);
+    void deleteClient(int id) throws ClientNotFoundException;
 
     List<ClientDTO> chercherClient(String keyword);
 
@@ -26,6 +26,8 @@ public interface ClientService {
     void addProjetToClient(int clientId, int projectId) throws ClientNotFoundException, ProjectNotFoundException;
 
     List<Projet> getprojets(int id) throws ClientNotFoundException, ProjectNotFoundException;
+
+    void removeProjetFromClient(int idC, int idP) throws ClientNotFoundException, ProjectNotFoundException;
 
     //List<ProjetDTO> getClientProjets(int id) throws ClientNotFoundException, ProjectNotFoundException;
 }
