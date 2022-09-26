@@ -1,7 +1,6 @@
 package ma.emsi.gestion_depense.repositories;
 
 
-import ma.emsi.gestion_depense.entities.Client;
 import ma.emsi.gestion_depense.entities.Projet;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

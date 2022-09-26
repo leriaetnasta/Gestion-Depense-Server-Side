@@ -1,6 +1,7 @@
 package ma.emsi.gestion_depense.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class ProjetDTO {
     private Date dateDebut;
     private Date dateFin;
 
-    private List<Deplacement> listDeplacement =new ArrayList<Deplacement>();
+
     private List<Employe> listEmploye= new ArrayList<Employe>();
 
 }

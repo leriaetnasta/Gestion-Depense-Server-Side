@@ -3,13 +3,22 @@ package ma.emsi.gestion_depense.services;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.emsi.gestion_depense.Exceptions.ClientNotFoundException;
+import ma.emsi.gestion_depense.Exceptions.DeplacementNotFoundException;
+import ma.emsi.gestion_depense.Exceptions.EmployeNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
 import ma.emsi.gestion_depense.dtos.ProjetDTO;
 import ma.emsi.gestion_depense.entities.Client;
+import ma.emsi.gestion_depense.entities.Deplacement;
+import ma.emsi.gestion_depense.entities.Employe;
 import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
 import ma.emsi.gestion_depense.repositories.ClientRepository;
+import ma.emsi.gestion_depense.repositories.DeplacementRepository;
+import ma.emsi.gestion_depense.repositories.EmployeRepository;
 import ma.emsi.gestion_depense.repositories.ProjetRepository;
+import ma.emsi.gestion_depense.services.interfaces.ClientService;
+import ma.emsi.gestion_depense.services.interfaces.DeplacementService;
+import ma.emsi.gestion_depense.services.interfaces.EmployeService;
 import ma.emsi.gestion_depense.services.interfaces.ProjetService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,14 +32,46 @@ import java.util.stream.Collectors;
 //journalisation log4j: pour l'utiliser il ya des api comme slf4j; c'est un framework qui permet la journalisation
 @Slf4j
 public class ProjetServiceImpl implements ProjetService {
-    ProjetRepository projetRepository;
-    ClientRepository clientRepository;
+    DeplacementService deplacementService;
+    EmployeService employeService;
+    ClientService clientService;
     GestionDepenseMapper gdp;
-
+    EmployeRepository employeRepository;
+    ClientRepository clientRepository;
+    DeplacementRepository deplacementRepository;
+    ProjetRepository projetRepository;
     @Override
-    public ProjetDTO saveProjet(ProjetDTO projetDTO) throws ProjectNotFoundException {
+    public ProjetDTO saveProjet(ProjetDTO projetDTO, int idD, int idC, int idE) throws EmployeNotFoundException, DeplacementNotFoundException,ClientNotFoundException {
         log.info("Ajout d'un projet");
-        Projet projet= gdp.fromProjetDTO(projetDTO);
+        Projet projet=gdp.fromProjetDTO(projetDTO);
+
+
+
+        Employe employe=employeRepository.findById(idE).orElse(null);
+        if(employe==null) throw new EmployeNotFoundException("Employe not found");
+
+        Client client=clientRepository.findById(idC).orElse(null);
+        if(client==null) throw new ClientNotFoundException("Client not Found");
+        Deplacement deplacement=deplacementRepository.findById(idD).orElse(null);
+        if(deplacement==null) throw new DeplacementNotFoundException("deplacement not found");
+
+        System.out.println(deplacement);
+        System.out.println(client);
+        System.out.println(employe);
+
+        deplacement.setEmploye(employe);
+        employe.getListDeplacement().add(deplacement);
+        employe.getProjet().add(projet);
+
+        projet.getListEmploye().add(employe);
+        projet.getListDeplacement().add(deplacement);
+        projet.setClient(client);
+        deplacement.setProjet(projet);
+        employe.getProjet().add(projet);
+        client.getListProjet().add(projet);
+        employeRepository.save(employe);
+        clientRepository.save(client);
+        deplacementRepository.save(deplacement);
         Projet projet1= projetRepository.save(projet);
         return gdp.fromProjet(projet1);
     }
@@ -47,11 +88,24 @@ public class ProjetServiceImpl implements ProjetService {
         return list1;
     }
     @Override
-    public ProjetDTO updateProjet(ProjetDTO projetDTO) {
+    public ProjetDTO updateProjet(ProjetDTO projetDTO, int idD, int idC, int idE) throws EmployeNotFoundException, DeplacementNotFoundException, ClientNotFoundException {
         log.info("edit projet");
+
+        Employe employe= employeService.getEmploye(idE);
+        Deplacement deplacement= gdp.fromDeplacementDTO(deplacementService.getDeplacement(idD));
+        Client client=gdp.fromClientDTO(clientService.getClient(idC));
         Projet projet=gdp.fromProjetDTO(projetDTO);
-        Projet projet1=projetRepository.save(projet);
-        return  gdp.fromProjet(projet1);
+        projet.getListEmploye().add(employe);
+        projet.getListDeplacement().add(deplacement);
+        projet.setClient(client);
+        deplacement.setProjet(projet);
+        employe.getProjet().add(projet);
+        client.getListProjet().add(projet);
+        employeRepository.save(employe);
+        clientRepository.save(client);
+        deplacementRepository.save(deplacement);
+        Projet projet1= projetRepository.save(projet);
+        return gdp.fromProjet(projet1);
     }
     @Override
     public List<ProjetDTO> listProjet() {
