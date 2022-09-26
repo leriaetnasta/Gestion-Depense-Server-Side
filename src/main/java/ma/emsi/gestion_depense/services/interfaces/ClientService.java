@@ -16,7 +16,8 @@ public interface ClientService {
 
     ClientDTO saveClient(ClientDTO clientDTO, int idP) throws ProjectNotFoundException;
 
-    ClientDTO updateClient(ClientDTO clientDTO);
+
+    ClientDTO updateClient(ClientDTO clientDTO, int idP) throws ProjectNotFoundException;
 
     void deleteClient(int id) throws ClientNotFoundException;
 

@@ -1,18 +1,19 @@
 package ma.emsi.gestion_depense.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
-@Data
 @NoArgsConstructor
 public class Client {
 
@@ -25,5 +26,8 @@ public class Client {
 
     @OneToMany(mappedBy = "client",fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    @ToString.Exclude
     private List<Projet> listProjet= new ArrayList<Projet>();
+
+
 }

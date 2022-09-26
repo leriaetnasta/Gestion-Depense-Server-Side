@@ -11,6 +11,7 @@ import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
 import ma.emsi.gestion_depense.repositories.ClientRepository;
 import ma.emsi.gestion_depense.repositories.ProjetRepository;
 import ma.emsi.gestion_depense.services.interfaces.ClientService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +26,6 @@ public class ClientServiceImpl implements ClientService {
     ClientRepository clientRepository;
     ProjetRepository projetRepository;
     GestionDepenseMapper gdp;
-
      @Override
     public List<ClientDTO> listClient() {
         List<Client> list= clientRepository.findAll();
@@ -58,11 +58,23 @@ public class ClientServiceImpl implements ClientService {
         return gdp.fromClient(client1);
     }
     @Override
-    public ClientDTO updateClient(ClientDTO clientDTO) {
+    public ClientDTO updateClient(ClientDTO clientDTO, int idP) throws ProjectNotFoundException {
         log.info("edit client");
-        Client client=gdp.fromClientDTO(clientDTO);
+        //step 1: we cast the objectDTO into an object
+        Client client= gdp.fromClientDTO(clientDTO);
+        //step 2: search if the related object exists in its table, we take the id of the object and look for it
+        //if object not found we throw an exception
+        Projet projet=projetRepository.findById(idP).orElse(null);
+        if(projet==null) throw new ProjectNotFoundException("projet not found");
+        //step 3: after we'e  established that the object exists now we add the object into the list
+        client.getListProjet().add(projet);
+        //step 4: to respect oop we add the object in the related object's table
+        projet.setClient(client);
+        //step 5: we save the related object
+        projetRepository.save(projet);
+        //step 6: we save our object and return a DTO
         Client client1=clientRepository.save(client);
-        return  gdp.fromClient(client1);
+        return gdp.fromClient(client1);
     }
     @Override
     public void deleteClient(int id) throws ClientNotFoundException {

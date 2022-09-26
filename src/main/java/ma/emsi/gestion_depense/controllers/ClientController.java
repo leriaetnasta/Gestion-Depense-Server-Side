@@ -10,6 +10,7 @@ import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.services.interfaces.ClientService;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,10 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 @RestController
-@CrossOrigin("*")
 public class ClientController {
     private ClientService clientService;
-
     @GetMapping("/user/clients")
     public List<ClientDTO> clients(){
         return clientService.listClient();
@@ -51,9 +50,14 @@ public class ClientController {
     }
 
     @PutMapping("/admin/clients/update/{id}")
-    public ClientDTO updateClient(@PathVariable int id,@RequestBody ClientDTO clientDTO){
-        clientDTO.setId(id);
-        return clientService.updateClient(clientDTO);
+    public ClientDTO updateClient(@PathVariable int id,@RequestBody String myObject) throws ProjectNotFoundException {
+        JSONObject jsonObject = new JSONObject(myObject);
+        JSONObject myobj = jsonObject.getJSONObject("client");
+        int idP= jsonObject.getInt("idP");
+        Gson gson= new Gson();
+        ClientDTO clientDTO = gson.fromJson(myobj.toString(),ClientDTO.class);
+
+        return clientService.updateClient(clientDTO, idP);
     }
 
 
