@@ -1,5 +1,6 @@
 package ma.emsi.gestion_depense.controllers;
 import com.google.gson.Gson;
+import lombok.RequiredArgsConstructor;
 import ma.emsi.gestion_depense.entities.Depense;
 import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
 import org.json.JSONObject;
@@ -23,7 +24,6 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 @RestController
-@CrossOrigin("*")
 public class DepenseController {
     DepenseService depenseService;
     GestionDepenseMapper gdp;

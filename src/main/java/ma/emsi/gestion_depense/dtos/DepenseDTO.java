@@ -6,10 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ma.emsi.gestion_depense.entities.Deplacement;
+import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.entities.enums.ModeReglement;
 import ma.emsi.gestion_depense.entities.enums.Status;
 
 import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +30,7 @@ public class DepenseDTO {
 
     private String titre;
     private String pieceJustificative;
-    private DeplacementDTO deplacement;
+
 
     private String commentaire;
 
