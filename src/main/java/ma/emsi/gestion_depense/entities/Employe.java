@@ -2,23 +2,23 @@ package ma.emsi.gestion_depense.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ma.emsi.gestion_depense.entities.enums.Departement;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
-@Data
 @NoArgsConstructor
-
 public class Employe {
     @Id
     @NotNull
@@ -48,16 +48,22 @@ public class Employe {
     private String matricule;
 
     @NotNull
-    @ManyToMany(targetEntity = Projet.class,cascade =  CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = Projet.class,fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     @JoinTable(name="employe_projet",joinColumns=@JoinColumn(name = "employe_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="projet_id"))
+    @ToString.Exclude
     private List<Projet> projet= new ArrayList<Projet>();
 
     @NotNull
-    @OneToMany(cascade =  CascadeType.ALL,mappedBy = "employe",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employe",fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    @ToString.Exclude
     private List<Deplacement> listDeplacement= new ArrayList<Deplacement>();
 
 
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -2,7 +2,9 @@ package ma.emsi.gestion_depense.services;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ma.emsi.gestion_depense.Exceptions.DeplacementNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.EmployeNotFoundException;
+import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
 import ma.emsi.gestion_depense.dtos.DeplacementDTO;
 import ma.emsi.gestion_depense.dtos.EmployeDTO;
 import ma.emsi.gestion_depense.dtos.ProjetDTO;
@@ -10,6 +12,7 @@ import ma.emsi.gestion_depense.entities.Deplacement;
 import ma.emsi.gestion_depense.entities.Employe;
 import ma.emsi.gestion_depense.entities.Projet;
 import ma.emsi.gestion_depense.mappers.GestionDepenseMapper;
+import ma.emsi.gestion_depense.repositories.DeplacementRepository;
 import ma.emsi.gestion_depense.repositories.EmployeRepository;
 import ma.emsi.gestion_depense.repositories.ProjetRepository;
 import ma.emsi.gestion_depense.services.interfaces.EmployeService;
@@ -27,13 +30,24 @@ import java.util.stream.Collectors;
 public class EmployeServiceImpl implements EmployeService {
     EmployeRepository employeRepository;
     ProjetRepository projetRepository;
+    DeplacementRepository deplacementRepository;
     GestionDepenseMapper gdp;
 
     @Override
-    public EmployeDTO saveEmploye(EmployeDTO employeDTO) {
+    public EmployeDTO saveEmploye(EmployeDTO employeDTO, int idP, int idD) throws ProjectNotFoundException, DeplacementNotFoundException {
         log.info("Ajout d'un employé");
+        Projet projet=projetRepository.findById(idP).orElse(null);
+        if(projet==null) throw new ProjectNotFoundException("projet not found");
+        Deplacement deplacement=deplacementRepository.findById(idD).orElse(null);
+        if(deplacement==null) throw new DeplacementNotFoundException("deplacement not found");
         Employe employe= gdp.fromEmployeDTO(employeDTO);
+        deplacement.setEmploye(employe);
+        employe.getListDeplacement().add(deplacement);
+        employe.getProjet().add(projet);
         Employe employe1= employeRepository.save(employe);
+        projet.getListEmploye().add(employe);
+        projetRepository.save(projet);
+        deplacementRepository.save(deplacement);
         return gdp.fromEmploye(employe1);
     }
     @Override
@@ -64,15 +78,22 @@ public class EmployeServiceImpl implements EmployeService {
         return gdp.fromEmploye(employe1);
     }
 
-
-
     @Override
-    public EmployeDTO updateEmploye(EmployeDTO employeDTO) {
-        log.info("edit employe");
-        Employe employe=gdp.fromEmployeDTO(employeDTO);
-        Employe employe1=employeRepository.save(employe);
-        return  gdp.fromEmploye(employe1);
-    }
+    public EmployeDTO updateEmploye(int id,EmployeDTO employeDTO, int idP, int idD) throws ProjectNotFoundException, DeplacementNotFoundException {
+        log.info("Ajout d'un employé");
+        Projet projet=projetRepository.findById(idP).orElse(null);
+        if(projet==null) throw new ProjectNotFoundException("projet not found");
+        Deplacement deplacement=deplacementRepository.findById(idD).orElse(null);
+        if(deplacement==null) throw new DeplacementNotFoundException("deplacement not found");
+        Employe employe= gdp.fromEmployeDTO(employeDTO);
+        deplacement.setEmploye(employe);
+        employe.getListDeplacement().add(deplacement);
+        employe.getProjet().add(projet);
+        Employe employe1= employeRepository.save(employe);
+        projet.getListEmploye().add(employe);
+        projetRepository.save(projet);
+        deplacementRepository.save(deplacement);
+        return gdp.fromEmploye(employe1);}
 
     @Override
     public List<EmployeDTO> listEmploye() {
@@ -90,9 +111,9 @@ public class EmployeServiceImpl implements EmployeService {
 
 
     @Override
-    public EmployeDTO getEmploye(int employeId) throws EmployeNotFoundException {
+    public Employe getEmploye(int employeId) throws EmployeNotFoundException {
          Employe employe= employeRepository.findById(employeId).orElseThrow(()-> new EmployeNotFoundException("Employé Introuvable"));
-         return gdp.fromEmploye(employe);
+         return employe;
     }
 
 
@@ -102,4 +123,7 @@ public class EmployeServiceImpl implements EmployeService {
         List<EmployeDTO> employeDTOS = employes.stream().map(employe -> gdp.fromEmploye(employe)).collect(Collectors.toList());
         return employeDTOS;
     }
+
+
+
 }
