@@ -1,20 +1,21 @@
 package ma.emsi.gestion_depense.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
-@Data
 @NoArgsConstructor
 public class Deplacement {
 
@@ -33,21 +34,28 @@ public class Deplacement {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateRetour;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     @JoinTable(name="deplacement_projet",joinColumns=@JoinColumn(name = "deplacement_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="projet_id"))
+    @ToString.Exclude
     private Projet projet;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
     @JoinTable(name="deplacement_employe",joinColumns=@JoinColumn(name = "deplacement_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="employe_id"))
+    @ToString.Exclude
     private Employe employe;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "deplacement")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "deplacement")
     @JsonProperty(access= JsonProperty.Access.WRITE_ONLY)
+    @ToString.Exclude
     private List<Depense> listdepense= new ArrayList<Depense>();
 
 
 
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -25,8 +25,6 @@ public class DeplacementDTO {
     private Date dateDepart;
     private Date dateRetour;
     private List<DepenseDTO> listdepense=new ArrayList<DepenseDTO>();
-    private Employe employe;
-    private Projet projet;
 
 
 

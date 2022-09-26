@@ -1,5 +1,6 @@
 package ma.emsi.gestion_depense.services.interfaces;
 
+import ma.emsi.gestion_depense.Exceptions.DepenseNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.DeplacementNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.EmployeNotFoundException;
 import ma.emsi.gestion_depense.Exceptions.ProjectNotFoundException;
@@ -13,11 +14,11 @@ import java.util.List;
 public interface DeplacementService {
 
 
-    DeplacementDTO saveDeplacement(DeplacementDTO deplacementDTO) throws DeplacementNotFoundException;
+    DeplacementDTO saveDeplacement(DeplacementDTO deplacementDTO, int idP, int idE, int idD) throws DeplacementNotFoundException, ProjectNotFoundException, EmployeNotFoundException, DepenseNotFoundException;
 
     void deleteDeplacement(int deplacementId);
 
-    DeplacementDTO updateDeplacement(DeplacementDTO deplacementDTO);
+    DeplacementDTO updateDeplacement(DeplacementDTO deplacementDTO, int idP, int idE, int idD) throws ProjectNotFoundException, EmployeNotFoundException, DepenseNotFoundException;
 
     List<DeplacementDTO> listDeplacement();
 
